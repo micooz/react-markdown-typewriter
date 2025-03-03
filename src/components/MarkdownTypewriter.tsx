@@ -8,7 +8,7 @@ export default function MarkdownTypewriter(
     props: MarkdownTypewriterProps
 ) {
     const {
-        delay = 0,
+        delay = 10,
         scrollRef,
         children: text,
         motionProps = {},
