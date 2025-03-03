@@ -9,13 +9,13 @@ export default function MarkdownTypewriter(
 ) {
     const {
         delay = 10,
-        scrollRef,
+        onCharacterAnimationComplete,
         children: text,
         motionProps = {},
         ...rest
     } = props;
     const {
-        letterVariants: letterVariantsProp = {
+        characterVariants: letterVariantsProp = {
             hidden: { opacity: 0 },
             visible: { opacity: 1, transition: { opacity: { duration: 0 } } },
         },
@@ -28,14 +28,15 @@ export default function MarkdownTypewriter(
         }),
         [delay]
     );
-    const letterVariants = useMemo<Variants>(() => letterVariantsProp, [delay]);
+    const characterVariants = useMemo<Variants>(() => letterVariantsProp, [delay]);
     const components = useMemo(
         () =>
             markdownComponents({
-                letterVariants,
-                scrollRef,
+                characterVariants,
+                onCharacterAnimationComplete,
+                delay,
             }),
-        [letterVariants, scrollRef]
+        [delay, characterVariants, onCharacterAnimationComplete]
     );
 
     return (

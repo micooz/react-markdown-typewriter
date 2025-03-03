@@ -55,7 +55,7 @@ export default function NarrationScreen() {
                     onAnimationComplete: () => {
                         console.log("Typewriter finished");
                     },
-                    letterVariants: {
+                    characterVariants: {
                         hidden: { opacity: 0 },
                         visible: { opacity: 1, transition: { opacity: { duration: 0 } } },
                     },
@@ -78,4 +78,4 @@ In addition to the `react-markdown` component props, the component accepts the f
 * `scrollRef`: The reference to the element that will be scrolled when the text exceeds the height of the container. (Optional)
 * `motionProps` (Optional):
   * The props to pass to the [motion span](https://motion.dev/docs/react-motion-component).
-  * `letterVariants`: The motion variants for each individual letter. Default: `{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { opacity: { duration: 0 } } } }` (Optional).
+  * `characterVariants`: The motion variants for each individual letter. Default: `{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { opacity: { duration: 0 } } } }` (Optional).

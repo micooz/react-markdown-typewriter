@@ -11,7 +11,7 @@ export default interface MarkdownTypewriterProps extends Omit<Options, "componen
     /**
      * The props to pass to the [motion span](https://motion.dev/docs/react-motion-component).
      *
-     * The `letterVariants` parameter has been added to be able to modify the animation of each individual letter
+     * The `characterVariants` parameter has been added to be able to modify the animation of each individual letter
      */
     motionProps?: Omit<HTMLMotionProps<"span">, "variants"> & {
         /**
@@ -19,7 +19,7 @@ export default interface MarkdownTypewriterProps extends Omit<Options, "componen
          *
          * @default { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { opacity: { duration: 0 } } } }
          */
-        letterVariants?: Variants;
+        characterVariants?: Variants;
     };
     /**
      * The reference to the element that will be scrolled when the text exceeds the height of the container.
