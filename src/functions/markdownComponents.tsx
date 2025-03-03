@@ -5,22 +5,23 @@ import { Components, ExtraProps } from "react-markdown";
 import TypewriterItem from "../components/TypewriterItem";
 
 export default function markdownComponents({
-    letterVariants,
-    scrollRef,
+    characterVariants,
+    onCharacterAnimationComplete,
+    delay,
 }: {
-    letterVariants: Variants;
-    scrollRef?: RefObject<HTMLDivElement | null>;
+    characterVariants: Variants;
+    onCharacterAnimationComplete?: (letterRef: RefObject<HTMLSpanElement | null>) => void;
+    delay: number;
 }): Components {
-    const scroll = (offsetTop: number) => {
-        if (scrollRef && scrollRef.current) {
-            let scrollTop = offsetTop - scrollRef.current.clientHeight / 2;
-            scrollRef.current.scrollTo({
-                top: scrollTop,
-                behavior: "auto",
-            });
-        }
-    };
     let res: Components = {};
+    const sentenceVariants = {
+        hidden: characterVariants.hidden,
+        visible: {
+            ...characterVariants,
+            opacity: 1,
+            transition: { staggerChildren: delay / 1000 },
+        },
+    };
     htmlTags.forEach((tag) => {
         try {
             let MotionComponent: ForwardRefComponent<HTMLHeadingElement, HTMLMotionProps<any>> = (motion as any)[tag];
@@ -29,53 +30,78 @@ export default function markdownComponents({
                     ClassAttributes<HTMLHeadingElement> & HTMLAttributes<HTMLHeadingElement> & ExtraProps
                 > = (props) => {
                     const { children, id, className } = props;
-                    if (tag == "p") {
-                        return (
-                            <TypewriterItem
-                                key={id}
-                                children={children}
-                                letterVariants={letterVariants}
-                                scrollOnLastItem={scroll}
-                                dadElement={(children) => {
-                                    if (Array.isArray(children)) {
-                                        children.push(<motion.span key={`span-${id}`} />);
-                                        return children;
-                                    }
-                                    return children;
-                                }}
-                            />
-                        );
-                    }
-                    return (
-                        <TypewriterItem
-                            key={id}
-                            children={children}
-                            letterVariants={letterVariants}
-                            scrollOnLastItem={scroll}
-                            dadElement={(children, isString) => {
-                                return (
-                                    <MotionComponent
-                                        {...props}
-                                        key={`${tag}-${id}`}
-                                        variants={
-                                            isString || className
-                                                ? undefined
-                                                : letterVariants && {
-                                                      hidden: letterVariants.hidden,
-                                                      visible: {
-                                                          ...letterVariants,
-                                                          opacity: 1,
-                                                          transition: { staggerChildren: 20 / 1000 },
-                                                      },
-                                                  }
+                    switch (tag) {
+                        case "table":
+                        case "input":
+                        case "hr":
+                            return (
+                                <MotionComponent
+                                    {...props}
+                                    key={`${tag}-${id}`}
+                                    variants={className ? undefined : sentenceVariants}
+                                    onAnimationComplete={onCharacterAnimationComplete}
+                                >
+                                    {children}
+                                </MotionComponent>
+                            );
+                        case "tr":
+                        case "th":
+                        case "td":
+                            return <MotionComponent {...props}>{children}</MotionComponent>;
+                        case "p":
+                            return (
+                                <TypewriterItem
+                                    key={id}
+                                    children={children}
+                                    characterVariants={characterVariants}
+                                    onCharacterAnimationComplete={onCharacterAnimationComplete}
+                                    dadElement={(children) => {
+                                        if (Array.isArray(children)) {
+                                            children.push(<motion.span key={`span-${id}`} />);
+                                            return children;
                                         }
-                                    >
-                                        {children}
-                                    </MotionComponent>
-                                );
-                            }}
-                        />
-                    );
+                                        return children;
+                                    }}
+                                />
+                            );
+                        case "span":
+                            return (
+                                <TypewriterItem
+                                    key={id}
+                                    children={children}
+                                    characterVariants={characterVariants}
+                                    onCharacterAnimationComplete={onCharacterAnimationComplete}
+                                    dadElement={(children) => {
+                                        if (Array.isArray(children)) {
+                                            return (
+                                                <MotionComponent {...props} key={`${tag}-${id}`} children={children} />
+                                            );
+                                        }
+                                        return children;
+                                    }}
+                                />
+                            );
+                        default:
+                            return (
+                                <TypewriterItem
+                                    key={id}
+                                    children={children}
+                                    characterVariants={characterVariants}
+                                    onCharacterAnimationComplete={onCharacterAnimationComplete}
+                                    dadElement={(children, isString) => {
+                                        return (
+                                            <MotionComponent
+                                                {...props}
+                                                key={`${tag}-${id}`}
+                                                variants={isString || className ? undefined : sentenceVariants}
+                                            >
+                                                {children}
+                                            </MotionComponent>
+                                        );
+                                    }}
+                                />
+                            );
+                    }
                 };
                 (res as any)[tag] = fn;
             }

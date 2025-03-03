@@ -1,20 +1,20 @@
 import { motion, Variants } from "motion/react";
-import { Key, ReactElement, useRef } from "react";
+import { Key, ReactElement, RefObject, useRef } from "react";
 
 export default function TypewriterItem({
     children,
     className,
-    letterVariants,
+    characterVariants,
     dadElement,
-    scrollOnLastItem,
+    onCharacterAnimationComplete,
     key,
 }: {
     children: any;
     className?: string;
-    letterVariants: Variants;
+    characterVariants: Variants;
     dadElement: (children: ReactElement | ReactElement[], isString?: boolean) => ReactElement | ReactElement[];
     isRoot?: boolean;
-    scrollOnLastItem?: (scrollTop: number) => void;
+    onCharacterAnimationComplete?: (letterRef: RefObject<HTMLSpanElement | null>) => void;
     key?: Key | null | undefined;
 }) {
     if (typeof children === "string") {
@@ -25,13 +25,11 @@ export default function TypewriterItem({
                     ref={ref}
                     className={className}
                     key={`span-${key}-${char}-${i}`}
-                    variants={letterVariants}
+                    variants={characterVariants}
                     onAnimationComplete={
-                        scrollOnLastItem
+                        onCharacterAnimationComplete
                             ? () => {
-                                  if (ref.current?.offsetParent) {
-                                      scrollOnLastItem(ref.current.offsetTop);
-                                  }
+                                  onCharacterAnimationComplete(ref);
                               }
                             : undefined
                     }
@@ -51,13 +49,11 @@ export default function TypewriterItem({
                             ref={ref}
                             className={className}
                             key={`span-${key}-${char}-${i}`}
-                            variants={letterVariants}
+                            variants={characterVariants}
                             onAnimationComplete={
-                                scrollOnLastItem
+                                onCharacterAnimationComplete
                                     ? () => {
-                                          if (ref.current?.offsetParent) {
-                                              scrollOnLastItem(ref.current.offsetTop);
-                                          }
+                                          onCharacterAnimationComplete(ref);
                                       }
                                     : undefined
                             }
