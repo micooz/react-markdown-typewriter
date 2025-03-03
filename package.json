@@ -1,0 +1,46 @@
+{
+  "name": "react-markdown-typewriter",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "React Markdown component where Typewriter effect with motion has been added.",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DRincs-Productions/react-markdown-typewriter.git"
+  },
+  "author": "DRincs-Productions",
+  "bugs": {
+    "url": "https://github.com/DRincs-Productions/react-markdown-typewriter/issues"
+  },
+  "homepage": "https://github.com/DRincs-Productions/react-markdown-typewriter",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
+  },
+  "keywords": [
+    "ast",
+    "commonmark",
+    "component",
+    "gfm",
+    "markdown",
+    "react",
+    "react-component",
+    "remark",
+    "unified",
+    "javascript animation",
+    "react animation",
+    "animation",
+    "motion",
+    "framer"
+  ]
+}
