@@ -26,6 +26,7 @@
   "devDependencies": {
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "html-tags": "^4.0.0",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3"
   },

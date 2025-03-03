@@ -1,6 +1,7 @@
 import { motion, Variants } from "motion/react";
 import { useMemo } from "react";
 import Markdown from "react-markdown";
+import markdownComponents from "../functions/markdownComponents";
 import { MarkdownTypewriterProps } from "../interfaces";
 
 export default function MarkdownTypewriter(
@@ -30,7 +31,7 @@ export default function MarkdownTypewriter(
     const letterVariants = useMemo<Variants>(() => letterVariantsProp, [delay]);
     const components = useMemo(
         () =>
-            MarkdownTypewriterComponents({
+            markdownComponents({
                 letterVariants,
                 scrollRef,
             }),
