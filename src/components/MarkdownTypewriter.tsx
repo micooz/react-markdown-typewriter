@@ -11,12 +11,15 @@ export default function MarkdownTypewriter(
         scrollRef,
         children: text,
         motionProps = {},
+        ...rest
+    } = props;
+    const {
         letterVariants: letterVariantsProp = {
             hidden: { opacity: 0 },
             visible: { opacity: 1, transition: { opacity: { duration: 0 } } },
         },
-        ...rest
-    } = props;
+        ...restMotionProps
+    } = motionProps;
     const sentenceVariants = useMemo<Variants>(
         () => ({
             hidden: {},
@@ -40,7 +43,7 @@ export default function MarkdownTypewriter(
             variants={sentenceVariants}
             initial='hidden'
             animate={"visible"}
-            {...motionProps}
+            {...restMotionProps}
         >
             <Markdown {...rest} components={components}>
                 {text}
