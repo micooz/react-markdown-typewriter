@@ -9,7 +9,6 @@ export default function MarkdownTypewriter(
 ) {
     const {
         delay = 10,
-        onCharacterAnimationComplete,
         children: text,
         motionProps = {},
         ...rest
@@ -19,6 +18,7 @@ export default function MarkdownTypewriter(
             hidden: { opacity: 0 },
             visible: { opacity: 1, transition: { opacity: { duration: 0 } } },
         },
+        onCharacterAnimationComplete,
         ...restMotionProps
     } = motionProps;
     const sentenceVariants = useMemo<Variants>(

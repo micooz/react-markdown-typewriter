@@ -2,6 +2,8 @@
 
 This library provides a new component, `MarkdownTypewriter`, that combines the Markdown component of [react-markdown](https://www.npmjs.com/package/react-markdown) with the animation of typewriter. The animation was created entirely with [motion](https://www.npmjs.com/package/motion).
 
+Live demo: https://codesandbox.io/p/sandbox/react-markdown-typewriter-rgjf6t
+
 ## Why?
 
 This library was born during the development of my game engine [pixi-vn](https://www.npmjs.com/package/@drincs/pixi-vn). I needed a component that would display the current dialogue of a character with the "Typewriter" effect and I also wanted to give the developer the possibility to use Markdown to add style to the text.
@@ -50,7 +52,6 @@ export default function NarrationScreen() {
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeRaw]}
                 delay={20}
-                scrollRef={paragraphRef}
                 motionProps={{
                     onAnimationComplete: () => {
                         console.log("Typewriter finished");
@@ -58,6 +59,15 @@ export default function NarrationScreen() {
                     characterVariants: {
                         hidden: { opacity: 0 },
                         visible: { opacity: 1, transition: { opacity: { duration: 0 } } },
+                    },
+                    onCharacterAnimationComplete: (ref) => {
+                        if (paragraphRef.current && ref.current) {
+                            let scrollTop = ref.current.offsetTop - paragraphRef.current.clientHeight / 2;
+                            paragraphRef.current.scrollTo({
+                                top: scrollTop,
+                                behavior: "auto",
+                            });
+                        }
                     },
                 }}
             >
@@ -75,7 +85,7 @@ export default function NarrationScreen() {
 In addition to the `react-markdown` component props, the component accepts the following props:
 
 * `delay`: The delay in milliseconds between the appearance of one letter and the next. Default: `10`. (Optional)
-* `scrollRef`: The reference to the element that will be scrolled when the text exceeds the height of the container. (Optional)
 * `motionProps` (Optional):
   * The props to pass to the [motion span](https://motion.dev/docs/react-motion-component).
   * `characterVariants`: The motion variants for each individual letter. Default: `{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { opacity: { duration: 0 } } } }` (Optional).
+  * `onCharacterAnimationComplete`: A callback that is called when the animation of a letter is complete. The callback is called with the reference to the letter. (Optional)
