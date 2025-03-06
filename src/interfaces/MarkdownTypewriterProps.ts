@@ -30,6 +30,15 @@ export default interface MarkdownTypewriterProps extends Omit<Options, "componen
          *
          * export default function NarrationScreen() {
          *     const paragraphRef = useRef<HTMLDivElement>(null);
+         *     const scrollToEnd = useCallback((ref: { current: HTMLSpanElement | null }) => {
+         *         if (paragraphRef.current && ref.current) {
+         *             let scrollTop = ref.current.offsetTop - paragraphRef.current.clientHeight / 2;
+         *             paragraphRef.current.scrollTo({
+         *                 top: scrollTop,
+         *                 behavior: "auto",
+         *             });
+         *         }
+         *     }, []);
          *     return (
          *         <div
          *             ref={paragraphRef}
@@ -40,15 +49,7 @@ export default interface MarkdownTypewriterProps extends Omit<Options, "componen
          *         >
          *             <MarkdownTypewriter
          *                 motionProps={{
-         *                     onCharacterAnimationComplete: (ref) => {
-         *                         if (paragraphRef.current && ref.current) {
-         *                             let scrollTop = ref.current.offsetTop - paragraphRef.current.clientHeight / 2;
-         *                             paragraphRef.current.scrollTo({
-         *                                 top: scrollTop,
-         *                                 behavior: "auto",
-         *                             });
-         *                         }
-         *                     }
+         *                     onCharacterAnimationComplete: scrollToEnd,
          *                 }}
          *             >
          *                 Hello World
