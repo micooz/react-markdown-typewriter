@@ -2,7 +2,7 @@
 
 This library provides a new component, `MarkdownTypewriter`, that combines the Markdown component of [react-markdown](https://www.npmjs.com/package/react-markdown) with the animation of typewriter. The animation was created entirely with [motion](https://www.npmjs.com/package/motion).
 
-Live demo: https://codesandbox.io/p/sandbox/react-markdown-typewriter-rgjf6t
+Live demo: <https://codesandbox.io/p/sandbox/react-markdown-typewriter-rgjf6t>
 
 ## Why?
 
