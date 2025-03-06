@@ -46,6 +46,15 @@ import MarkdownTypewriter from "../components/Typewriter";
 
 export default function NarrationScreen() {
     const paragraphRef = useRef<HTMLDivElement>(null);
+    const scrollToEnd = useCallback((ref: { current: HTMLSpanElement | null }) => {
+        if (paragraphRef.current && ref.current) {
+            let scrollTop = ref.current.offsetTop - paragraphRef.current.clientHeight / 2;
+            paragraphRef.current.scrollTo({
+                top: scrollTop,
+                behavior: "auto",
+            });
+        }
+    }, []);
     return (
         <div ref={paragraphRef}>
             <MarkdownTypewriter
@@ -60,15 +69,7 @@ export default function NarrationScreen() {
                         hidden: { opacity: 0 },
                         visible: { opacity: 1, transition: { opacity: { duration: 0 } } },
                     },
-                    onCharacterAnimationComplete: (ref) => {
-                        if (paragraphRef.current && ref.current) {
-                            let scrollTop = ref.current.offsetTop - paragraphRef.current.clientHeight / 2;
-                            paragraphRef.current.scrollTo({
-                                top: scrollTop,
-                                behavior: "auto",
-                            });
-                        }
-                    },
+                    onCharacterAnimationComplete: scrollToEnd,
                 }}
             >
                 Hello World
