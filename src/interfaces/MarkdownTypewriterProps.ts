@@ -1,8 +1,8 @@
 import { HTMLMotionProps, Variants } from "motion/react";
 import { RefObject } from "react";
-import { Options } from "react-markdown";
+import { HooksOptions, Options } from "react-markdown";
 
-export default interface MarkdownTypewriterProps extends Options {
+interface TypewriterProps {
     /**
      * The delay in milliseconds between the appearance of one letter and the next.
      * @default 10
@@ -62,3 +62,5 @@ export default interface MarkdownTypewriterProps extends Options {
         onCharacterAnimationComplete?: (letterRef: RefObject<HTMLSpanElement | null>) => void;
     };
 }
+export default interface MarkdownTypewriterProps extends Options, TypewriterProps {}
+export interface MarkdownTypewriterHooksProps extends HooksOptions, TypewriterProps {}

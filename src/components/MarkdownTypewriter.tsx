@@ -1,37 +1,16 @@
-import { motion, Variants } from "motion/react";
-import { useMemo } from "react";
+import { motion } from "motion/react";
 import Markdown from "react-markdown";
-import markdownComponents from "../functions/markdownComponents";
+import typewriterHook from "../functions/typewriterHook";
 import { MarkdownTypewriterProps } from "../interfaces";
 
 export default function MarkdownTypewriter(props: MarkdownTypewriterProps) {
     const { delay = 10, children: text, motionProps = {}, components: externalComponents, ...rest } = props;
-    const {
-        characterVariants: letterVariantsProp = {
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { opacity: { duration: 0 } } },
-        },
+    const { characterVariants, onCharacterAnimationComplete, ...restMotionProps } = motionProps;
+    const { sentenceVariants, components } = typewriterHook({
+        delay,
+        characterVariants,
         onCharacterAnimationComplete,
-        ...restMotionProps
-    } = motionProps;
-    const sentenceVariants = useMemo<Variants>(
-        () => ({
-            hidden: {},
-            visible: { opacity: 1, transition: { staggerChildren: delay / 1000 } },
-        }),
-        [delay]
-    );
-    const characterVariants = useMemo<Variants>(() => letterVariantsProp, [delay]);
-    const components = useMemo(
-        () =>
-            markdownComponents({
-                characterVariants,
-                onCharacterAnimationComplete,
-                delay,
-            }),
-        [delay, characterVariants, onCharacterAnimationComplete]
-    );
-
+    });
     return (
         <motion.span
             key={`typewriter-internal-${text}`}
