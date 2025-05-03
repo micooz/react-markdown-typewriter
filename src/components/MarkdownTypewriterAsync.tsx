@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useMemo } from "react";
 import { MarkdownAsync } from "react-markdown";
 import typewriterHook from "../functions/typewriterHook";
 import { MarkdownTypewriterProps } from "../interfaces";
@@ -12,14 +13,19 @@ export default async function MarkdownTypewriterAsync(props: MarkdownTypewriterP
         onCharacterAnimationComplete,
     });
 
-    const markdown = await MarkdownAsync({
-        ...rest,
-        components: {
-            ...components,
-            ...externalComponents,
-        },
-        children: text,
-    });
+    const markdownPromise = useMemo(
+        () =>
+            MarkdownAsync({
+                ...rest,
+                components: {
+                    ...components,
+                    ...externalComponents,
+                },
+                children: text,
+            }),
+        [text, components, externalComponents]
+    );
+    const markdown = await markdownPromise;
 
     return (
         <motion.span
