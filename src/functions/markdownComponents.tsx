@@ -34,6 +34,7 @@ export default function markdownComponents({
                         case "table":
                         case "input":
                         case "hr":
+                        case "img":
                             return (
                                 <MotionComponent
                                     {...props}
