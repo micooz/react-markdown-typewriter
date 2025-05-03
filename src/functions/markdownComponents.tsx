@@ -50,19 +50,22 @@ export default function markdownComponents({
                             return <MotionComponent {...props}>{children}</MotionComponent>;
                         case "p":
                             return (
-                                <TypewriterItem
-                                    key={id}
-                                    children={children}
-                                    characterVariants={characterVariants}
-                                    onCharacterAnimationComplete={onCharacterAnimationComplete}
-                                    dadElement={(children) => {
-                                        if (Array.isArray(children)) {
-                                            children.push(<motion.span key={`span-${id}`} />);
+                                <>
+                                    <TypewriterItem
+                                        key={id}
+                                        children={children}
+                                        characterVariants={characterVariants}
+                                        onCharacterAnimationComplete={onCharacterAnimationComplete}
+                                        dadElement={(children) => {
+                                            if (Array.isArray(children)) {
+                                                children.push(<motion.span key={`span-${id}`} />);
+                                                return children;
+                                            }
                                             return children;
-                                        }
-                                        return children;
-                                    }}
-                                />
+                                        }}
+                                    />
+                                    <div></div>
+                                </>
                             );
                         case "span":
                             return (
