@@ -25,7 +25,7 @@ The component accepts all the props of the `react-markdown` component and adds s
 This is a very simple example of how to use the component:
 
 ```tsx
-import MarkdownTypewriter from "../components/Typewriter";
+import { MarkdownTypewriter } from "react-markdown-typewriter";
 
 export default function NarrationScreen() {
     return (
@@ -42,7 +42,7 @@ This is a more complex example:
 import { useRef } from "react";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import MarkdownTypewriter from "../components/Typewriter";
+import { MarkdownTypewriter } from "react-markdown-typewriter";
 
 export default function NarrationScreen() {
     const paragraphRef = useRef<HTMLDivElement>(null);
