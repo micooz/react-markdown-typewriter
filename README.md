@@ -1,6 +1,6 @@
 # React Markdown Typewriter
 
-This library provides a new component, `MarkdownTypewriter`, that combines the Markdown component of [react-markdown](https://www.npmjs.com/package/react-markdown) with the animation of typewriter. The animation was created entirely with [motion](https://www.npmjs.com/package/motion).
+This library provides 2 new component, `MarkdownTypewriter` and `MarkdownTypewriterAsync`, that combines the Markdown component of [react-markdown](https://www.npmjs.com/package/react-markdown) with the animation of typewriter. The animation was created entirely with [motion](https://www.npmjs.com/package/motion).
 
 Live demo: <https://codesandbox.io/p/sandbox/react-markdown-typewriter-rgjf6t>
 
@@ -75,6 +75,22 @@ export default function NarrationScreen() {
                 Hello World
             </MarkdownTypewriter>
         </div>
+    );
+}
+```
+
+## Async
+
+The `MarkdownTypewriterAsync` component is variant of the `MarkdownTypewriter` component for use with `React.Suspense`. It allows you to load the content of the Markdown file asynchronously. This is useful if you want to load the content of the Markdown file from a server or from a local file.
+
+```tsx
+import { MarkdownTypewriterAsync } from "react-markdown-typewriter";
+
+export default function NarrationScreen() {
+    return (
+        <Suspense fallback={<div>...</div>}>
+            <MarkdownTypewriterAsync>Hello World</MarkdownTypewriterAsync>
+        </Suspense>
     );
 }
 ```
