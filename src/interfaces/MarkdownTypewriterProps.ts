@@ -2,7 +2,7 @@ import { HTMLMotionProps, Variants } from "motion/react";
 import { RefObject } from "react";
 import { Options } from "react-markdown";
 
-export default interface MarkdownTypewriterProps extends Omit<Options, "components"> {
+export default interface MarkdownTypewriterProps extends Options {
     /**
      * The delay in milliseconds between the appearance of one letter and the next.
      * @default 10
