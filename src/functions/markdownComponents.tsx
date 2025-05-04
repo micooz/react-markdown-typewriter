@@ -51,22 +51,24 @@ export default function markdownComponents({
                             return <MotionComponent {...props}>{children}</MotionComponent>;
                         case "p":
                             return (
-                                <>
-                                    <TypewriterItem
-                                        key={id}
-                                        children={children}
-                                        characterVariants={characterVariants}
-                                        onCharacterAnimationComplete={onCharacterAnimationComplete}
-                                        dadElement={(children) => {
-                                            if (Array.isArray(children)) {
-                                                children.push(<motion.span key={`span-${id}`} />);
-                                                return children;
-                                            }
+                                <TypewriterItem
+                                    key={id}
+                                    children={children}
+                                    characterVariants={characterVariants}
+                                    onCharacterAnimationComplete={onCharacterAnimationComplete}
+                                    dadElement={(children) => {
+                                        if (Array.isArray(children)) {
+                                            children.push(
+                                                <motion.span
+                                                    key={`span-${id}-newline`}
+                                                    style={{ display: "block", height: 0, width: 0 }}
+                                                />
+                                            );
                                             return children;
-                                        }}
-                                    />
-                                    <div></div>
-                                </>
+                                        }
+                                        return children;
+                                    }}
+                                />
                             );
                         case "span":
                             return (

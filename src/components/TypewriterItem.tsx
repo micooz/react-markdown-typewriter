@@ -13,7 +13,6 @@ export default function TypewriterItem({
     className?: string;
     characterVariants: Variants;
     dadElement: (children: ReactElement | ReactElement[], isString?: boolean) => ReactElement | ReactElement[];
-    isRoot?: boolean;
     onCharacterAnimationComplete?: (letterRef: RefObject<HTMLSpanElement | null>) => void;
     key?: Key | null | undefined;
 }) {
