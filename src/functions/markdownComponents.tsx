@@ -30,6 +30,7 @@ export default function markdownComponents({
                     ClassAttributes<HTMLHeadingElement> & HTMLAttributes<HTMLHeadingElement> & ExtraProps
                 > = (props) => {
                     const { children, id, className } = props;
+                    const { node, ...componentProps } = props;
                     switch (tag) {
                         case "table":
                         case "input":
@@ -37,7 +38,7 @@ export default function markdownComponents({
                         case "img":
                             return (
                                 <MotionComponent
-                                    {...props}
+                                    {...componentProps}
                                     key={`${tag}-${id}`}
                                     variants={className ? undefined : sentenceVariants}
                                     onAnimationComplete={onCharacterAnimationComplete}
@@ -48,7 +49,7 @@ export default function markdownComponents({
                         case "tr":
                         case "th":
                         case "td":
-                            return <MotionComponent {...props}>{children}</MotionComponent>;
+                            return <MotionComponent {...componentProps}>{children}</MotionComponent>;
                         case "p":
                             return (
                                 <TypewriterItem
@@ -80,7 +81,7 @@ export default function markdownComponents({
                                     dadElement={(children) => {
                                         if (Array.isArray(children)) {
                                             return (
-                                                <MotionComponent {...props} key={`${tag}-${id}`} children={children} />
+                                                <MotionComponent {...componentProps} key={`${tag}-${id}`} children={children} />
                                             );
                                         }
                                         return children;
@@ -97,7 +98,7 @@ export default function markdownComponents({
                                     dadElement={(children, isString) => {
                                         return (
                                             <MotionComponent
-                                                {...props}
+                                                {...componentProps}
                                                 key={`${tag}-${id}`}
                                                 variants={isString || className ? undefined : sentenceVariants}
                                             >
