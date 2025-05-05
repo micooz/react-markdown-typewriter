@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
 import { MarkdownHooks } from "react-markdown";
 import typewriterHook from "../functions/typewriterHook";
 import { MarkdownTypewriterHooksProps } from "../interfaces/MarkdownTypewriterProps";
@@ -11,13 +12,23 @@ export default function MarkdownTypewriterHooks(props: MarkdownTypewriterHooksPr
         characterVariants,
         onCharacterAnimationComplete,
     });
+    const [animated, set] = useState<"hidden" | "visible">("hidden");
+
+    useEffect(() => {
+        setTimeout(() => {
+            set("visible");
+        }, 10);
+        return () => {
+            set("hidden");
+        };
+    }, [text]);
 
     return (
         <motion.span
             key={`typewriter-internal-${text}`}
             variants={sentenceVariants}
             initial='hidden'
-            animate={"visible"}
+            animate={animated}
             {...restMotionProps}
         >
             <MarkdownHooks
