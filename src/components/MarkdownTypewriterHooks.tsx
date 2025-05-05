@@ -1,24 +1,15 @@
 import { motion } from "motion/react";
-import { MarkdownAsync } from "react-markdown";
+import { MarkdownHooks } from "react-markdown";
 import typewriterHook from "../functions/typewriterHook";
-import { MarkdownTypewriterProps } from "../interfaces";
+import { MarkdownTypewriterHooksProps } from "../interfaces/MarkdownTypewriterProps";
 
-export default async function MarkdownTypewriterAsync(props: MarkdownTypewriterProps) {
+export default function MarkdownTypewriterHooks(props: MarkdownTypewriterHooksProps) {
     const { delay = 10, children: text, motionProps = {}, components: externalComponents, ...rest } = props;
     const { characterVariants, onCharacterAnimationComplete, ...restMotionProps } = motionProps;
     const { sentenceVariants, components } = typewriterHook({
         delay,
         characterVariants,
         onCharacterAnimationComplete,
-    });
-
-    const markdown = await MarkdownAsync({
-        ...rest,
-        components: {
-            ...components,
-            ...externalComponents,
-        },
-        children: text,
     });
 
     return (
@@ -29,7 +20,15 @@ export default async function MarkdownTypewriterAsync(props: MarkdownTypewriterP
             animate={"visible"}
             {...restMotionProps}
         >
-            {markdown}
+            <MarkdownHooks
+                {...rest}
+                components={{
+                    ...components,
+                    ...externalComponents,
+                }}
+            >
+                {text}
+            </MarkdownHooks>
         </motion.span>
     );
 }

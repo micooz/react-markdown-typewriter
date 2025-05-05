@@ -79,21 +79,23 @@ export default function NarrationScreen() {
 }
 ```
 
-## Async
+## MarkdownTypewriterAsync
 
-The `MarkdownTypewriterAsync` component is variant of the `MarkdownTypewriter` component for use with `React.Suspense`. It allows you to load the content of the Markdown file asynchronously. This is useful if you want to load the content of the Markdown file from a server or from a local file.
+Component to render markdown with support for async plugins
+through async/await.
 
-```tsx
-import { MarkdownTypewriterAsync } from "react-markdown-typewriter";
+Components returning promises are supported on the server.
+For async support on the client,
+see [`MarkdownTypewriterHooks`](#markdowntypewriterhooks)
 
-export default function NarrationScreen() {
-    return (
-        <Suspense fallback={<div>...</div>}>
-            <MarkdownTypewriterAsync>Hello World</MarkdownTypewriterAsync>
-        </Suspense>
-    );
-}
-```
+## MarkdownTypewriterHooks
+
+Component to render markdown with support for async plugins through hooks.
+
+This uses `useEffect` and `useState` hooks.
+Hooks run on the client and do not immediately render something.
+For async support on the server,
+see [`MarkdownTypewriterAsync`](#markdowntypewriterasync)
 
 ## API
 
