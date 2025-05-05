@@ -27,13 +27,13 @@ export default function TypewriterItem({
     onCharacterAnimationComplete?: (letterRef: RefObject<HTMLSpanElement | null>) => void;
     key?: Key | null | undefined;
 }) {
-    const ref = useRef<HTMLSpanElement>(null);
-    const onAnimationComplete = onCharacterAnimationComplete
-        ? throttle(() => onCharacterAnimationComplete(ref), 10)
-        : undefined;
-
     if (typeof children === "string") {
         const spanList = children.split("").map((char, i) => {
+            const ref = useRef<HTMLSpanElement>(null);
+            const onAnimationComplete = onCharacterAnimationComplete
+                ? throttle(() => onCharacterAnimationComplete(ref), 10)
+                : undefined;
+
             return (
                 <motion.span
                     ref={ref}
@@ -52,6 +52,9 @@ export default function TypewriterItem({
             if (typeof child === "string") {
                 let spanList = child.split("").map((char, i) => {
                     const ref = useRef<HTMLSpanElement>(null);
+                    const onAnimationComplete = onCharacterAnimationComplete
+                        ? throttle(() => onCharacterAnimationComplete(ref), 10)
+                        : undefined;
                     return (
                         <motion.span
                             ref={ref}
