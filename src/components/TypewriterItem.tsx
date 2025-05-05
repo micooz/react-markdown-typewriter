@@ -1,6 +1,17 @@
 import { motion, Variants } from "motion/react";
 import { Key, ReactElement, RefObject, useRef } from "react";
 
+function throttle(func: (...args: any[]) => void, limit: number) {
+    let lastCall = 0;
+    return (...args: any[]) => {
+        const now = Date.now();
+        if (now - lastCall >= limit) {
+            lastCall = now;
+            func(...args);
+        }
+    };
+}
+
 export default function TypewriterItem({
     children,
     className,
@@ -16,22 +27,20 @@ export default function TypewriterItem({
     onCharacterAnimationComplete?: (letterRef: RefObject<HTMLSpanElement | null>) => void;
     key?: Key | null | undefined;
 }) {
+    const ref = useRef<HTMLSpanElement>(null);
+    const onAnimationComplete = onCharacterAnimationComplete
+        ? throttle(() => onCharacterAnimationComplete(ref), 10)
+        : undefined;
+
     if (typeof children === "string") {
         const spanList = children.split("").map((char, i) => {
-            const ref = useRef<HTMLSpanElement>(null);
             return (
                 <motion.span
                     ref={ref}
                     className={className}
                     key={`span-${key}-${char}-${i}`}
                     variants={characterVariants}
-                    onAnimationComplete={
-                        onCharacterAnimationComplete
-                            ? () => {
-                                  onCharacterAnimationComplete(ref);
-                              }
-                            : undefined
-                    }
+                    onAnimationComplete={onAnimationComplete}
                 >
                     {char}
                 </motion.span>
@@ -49,13 +58,7 @@ export default function TypewriterItem({
                             className={className}
                             key={`span-${key}-${char}-${i}`}
                             variants={characterVariants}
-                            onAnimationComplete={
-                                onCharacterAnimationComplete
-                                    ? () => {
-                                          onCharacterAnimationComplete(ref);
-                                      }
-                                    : undefined
-                            }
+                            onAnimationComplete={onAnimationComplete}
                         >
                             {char}
                         </motion.span>
