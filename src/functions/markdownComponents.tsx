@@ -81,7 +81,11 @@ export default function markdownComponents({
                                     dadElement={(children) => {
                                         if (Array.isArray(children)) {
                                             return (
-                                                <MotionComponent {...componentProps} key={`${tag}-${id}`} children={children} />
+                                                <MotionComponent
+                                                    {...componentProps}
+                                                    key={`${tag}-${id}`}
+                                                    children={children}
+                                                />
                                             );
                                         }
                                         return children;
