@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/DRincs-Productions/react-markdown-typewriter",
   "dependencies": {
+    "emoji-regex": "^10.4.0",
     "motion": "^12.9.6"
   },
   "devDependencies": {
