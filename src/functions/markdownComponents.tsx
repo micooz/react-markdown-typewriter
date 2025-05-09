@@ -17,7 +17,7 @@ export default function markdownComponents({
     const sentenceVariants = {
         hidden: characterVariants.hidden,
         visible: {
-            ...characterVariants,
+            ...characterVariants.visible,
             opacity: 1,
             transition: { staggerChildren: delay / 1000 },
         },
