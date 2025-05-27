@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MarkdownHooks } from "react-markdown";
 import typewriterHook from "../functions/typewriterHook";
 import { MarkdownTypewriterHooksProps } from "../interfaces/MarkdownTypewriterProps";
@@ -14,6 +14,16 @@ export default function MarkdownTypewriterHooks(props: MarkdownTypewriterHooksPr
     });
     const [animated, set] = useState<"hidden" | "visible">("hidden");
 
+    const mergedComponents = useMemo(
+        () => ({
+            ...components,
+            ...(externalComponents || {}),
+        }),
+        [components, externalComponents]
+    );
+
+    const key = useMemo(() => `typewriter-${typeof text === "string" ? text.slice(0, 32) : ""}`, [text]);
+
     useEffect(() => {
         setTimeout(() => {
             set("visible");
@@ -24,20 +34,8 @@ export default function MarkdownTypewriterHooks(props: MarkdownTypewriterHooksPr
     }, [text]);
 
     return (
-        <motion.span
-            key={`typewriter-internal-${text}`}
-            variants={sentenceVariants}
-            initial='hidden'
-            animate={animated}
-            {...restMotionProps}
-        >
-            <MarkdownHooks
-                {...rest}
-                components={{
-                    ...components,
-                    ...externalComponents,
-                }}
-            >
+        <motion.span key={key} variants={sentenceVariants} initial='hidden' animate={animated} {...restMotionProps}>
+            <MarkdownHooks {...rest} components={mergedComponents}>
                 {text}
             </MarkdownHooks>
         </motion.span>

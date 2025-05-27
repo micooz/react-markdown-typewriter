@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useMemo } from "react";
 import { MarkdownAsync } from "react-markdown";
 import typewriterHook from "../functions/typewriterHook";
 import { MarkdownTypewriterProps } from "../interfaces";
@@ -12,23 +13,24 @@ export default async function MarkdownTypewriterAsync(props: MarkdownTypewriterP
         onCharacterAnimationComplete,
     });
 
+    const mergedComponents = useMemo(
+        () => ({
+            ...components,
+            ...(externalComponents || {}),
+        }),
+        [components, externalComponents]
+    );
+
+    const key = useMemo(() => `typewriter-${typeof text === "string" ? text.slice(0, 32) : ""}`, [text]);
+
     const markdown = await MarkdownAsync({
         ...rest,
-        components: {
-            ...components,
-            ...externalComponents,
-        },
+        components: mergedComponents,
         children: text,
     });
 
     return (
-        <motion.span
-            key={`typewriter-internal-${text}`}
-            variants={sentenceVariants}
-            initial='hidden'
-            animate={"visible"}
-            {...restMotionProps}
-        >
+        <motion.span key={key} variants={sentenceVariants} initial='hidden' animate={"visible"} {...restMotionProps}>
             {markdown}
         </motion.span>
     );
