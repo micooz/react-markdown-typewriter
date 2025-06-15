@@ -1,2 +1,4 @@
-export { MarkdownTypewriterHooksProps, default as MarkdownTypewriterProps } from "./MarkdownTypewriterProps";
-
+export type {
+  MarkdownTypewriterHooksProps,
+  default as MarkdownTypewriterProps,
+} from './MarkdownTypewriterProps';
